@@ -2,6 +2,12 @@
 import numpy as np
 from C_word_process import WordProcess
 
+class LL1ParseError(Exception):
+    def __init__(self, message) -> None:
+        super().__init__(message)
+
+
+
 #先手动消除左递归得到报告中的文法
 class LL1Recur(WordProcess):
     def __init__(self, filename) -> None:
@@ -14,7 +20,8 @@ class LL1Recur(WordProcess):
 
         self.final_table = self.token_df['final_table'].to_list()
         self.token_num = self.token_df['token_num'].to_list()
-
+        self.token_lines = self.token_df['line_num'].to_list()
+        print("语法分析结果如下：")
         for i in self.final_table:
             print(i,end=' ')
         print("\n语法分析开始:")
@@ -93,7 +100,8 @@ class LL1Recur(WordProcess):
                 print("stmt --> block")
                 self.block()
             case _: 
-                print("ERROR")
+                # print("ERROR")
+                self.error_handle(3,self.token_lines[self.pointer])
     
 
 
@@ -177,7 +185,8 @@ class LL1Recur(WordProcess):
                 print("factor --> num")
                 self.match("num")
             case _:
-                print("ERROR factor")
+                # print("ERROR factor")
+                self.error_handle(2,self.token_lines[self.pointer])
 
     # def error_handle(self, error_num, line_num):
     #     return super().error_handle(error_num, line_num)
@@ -185,10 +194,26 @@ class LL1Recur(WordProcess):
         if self.final_table[self.pointer] == ch:
             pass
         else :
-            print("ERROR")
-            return
+            # print("ERROR")
+            self.error_handle(1,self.token_lines[self.pointer])
+            # return
         
         self.pointer += 1;
 
+    def error_handle(self, error_num, line_num):
+        super().error_handle(error_num, line_num)
+        print(f"LL1 parsing error found in line {line_num}")
+        match error_num:
+            case 1:
+                message = "Match error"
+            case 2:
+                message = "Factor error"
+            case 3:
+                message = "Stmt error"
+        raise LL1ParseError(message)
+
+
+
+
 if __name__ == "__main__":
-    LL1Recur("lltest.c")
+    LL1Recur("LL1_RecurTest.c")

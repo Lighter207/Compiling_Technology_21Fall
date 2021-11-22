@@ -234,7 +234,7 @@ class WordProcess :
                                 self.tokens.append({"token":local_token,"token_num":local_token_num,"line_num":local_line_num})
                                 line_element_index += 1 
                             else :
-                                print("ERROR single ! found.")
+                                self.error_handle(42,local_line_num)
                             local_token = "" #recover 
 
                         case "&": # &&
@@ -246,7 +246,7 @@ class WordProcess :
                                 self.tokens.append({"token":local_token,"token_num":local_token_num,"line_num":local_line_num})
                                 line_element_index += 1 
                             else: 
-                                print("ERROR, single & found.")
+                                self.error_handle(43,local_line_num)
                             local_token = "" #recover
 
                         case "|": # ||
@@ -258,7 +258,7 @@ class WordProcess :
                                 self.tokens.append({"token":local_token,"token_num":local_token_num,"line_num":local_line_num})
                                 line_element_index += 1 
                             else:
-                                print("ERROR, single | found.")
+                                self.error_handle(44,local_line_num)
                             local_token = "" #recover 
                             
                         case _:
@@ -274,17 +274,22 @@ class WordProcess :
 
 
     def error_handle(self,error_num,line_num):
-        print(f"Error in line {line_num}")
+        print(f"Token error found in line {line_num}")
         match error_num:
             case 1:
                 message = "Character error! No enclosing ' found!"
-                raise TokenError(message)
             case 2: 
                 message = "Character variable not legitimate."
-                raise TokenError(message)
+            case 42:
+                message = "Single ! found!"
+            case 43:
+                message = "Single & found!"
+            case 44:
+                message = "Single | found!"
+        raise TokenError(message)
 
 
 
 if __name__ == "__main__":
-    WP = WordProcess("lltest.c")
+    WP = WordProcess("Word_ProcessTest.c")
     print(WP.token_df)
