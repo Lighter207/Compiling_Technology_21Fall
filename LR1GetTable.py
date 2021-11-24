@@ -1,38 +1,12 @@
 from LRGetFirstSet import First
 import pandas as pd
 
-from test_key import get_key
+# from test_key import get_key
 
 class LR1Table:
 	''' Grammar rules must be augmented beforehand by the user 
 		with '^::=.S$'. Where ^ denotes S', S is the first Vn.
-	'''
-	def check_validility(self,i):
-		if i[0][-1]=='.':
-			return False
-		return True
-
-	def pre_process_states(self,states):
-		'''
-		One of the implementation error:
-		Since our grammar is in the form 'A::=Bb' where b is the follow of the grammar.
-
-		The program could not distinguish the follow element from the other elements, hence, we need this function to
-		avoid that.
-
-		'''
-		l=[]
-		for i in states:
-			if self.check_validility(i):
-				l.append(''.join(i).replace(' ',''))
-
-		if len(l)!=0:
-			return(l)
-			
-
-	def is_nonterminal(self,symbol):
-		return symbol.isupper()
-	
+	'''	
 	def shift_pos(self,item):
 		'''
 			将.向后移动一位
@@ -55,15 +29,12 @@ class LR1Table:
 		Input:['A::=B.b$'],b
 		Output:True
 		'''
-		Item = ''.join(item).replace(' ','')
-		listItem = list(Item)
 		try:
-			index=listItem.index('.')
-			#index1=listItem.index('=')
-			if N == listItem[index+1]:
+			index = item.index('.')
+
+			if N == item[index+1] and item[index+1] != 'e':
 				return True
-			if ' '== listItem[index+1]:
-				return False
+
 		except:
 			return False
 
@@ -77,33 +48,16 @@ class LR1Table:
 		Output: ['S::=C.C$', 'C::=.cC$', 'C::=.d$']
 
 		'''
-		J=[]
-		is_Vn = 0
-		for i in I:
-			if self.check(i,symbol): #True if . can still be shifted else False
-				new = self.shift_pos(i)
+		J = []
+		for item in I:
+			if self.check(item,symbol): #True if . can still be shifted else False
+				new = self.shift_pos(item)
 				J.append(new)
-		
-		if(symbol.isupper()):
-			is_Vn = 1
 
 		if len(J) == 0:
-			return([],is_Vn)
+			return([])
 
-		return(J,is_Vn)
-
-	def all_grammar_symbols(self,item):
-		'''
-		Input: All sets of Grammar(our main input)
-		Output: Grammar Symbols
-		'''
-		l=[]
-		for i in item:
-			for k in i:
-				if k.isalpha():
-					l.append(k)
-		
-		return set(l)
+		return(J)
 
 
 	def find_productions(self,A):
@@ -150,8 +104,6 @@ class LR1Table:
 		output :'A'
 
 		'''
-		# Item = item.replace(' ','')
-		# listItem = list(Item)
 		try:
 			index = item.index('.')
 			return item[index+1]
@@ -168,11 +120,11 @@ class LR1Table:
 		output: '$'
 
 		'''
-		Item = item.replace(' ','')
-		listItem = list(Item)
+		# Item = item.replace(' ','')
+		# listItem = list(Item)
 		try:
-			index = listItem.index('.')
-			return listItem[index+2:]
+			index = item.index('.')
+			return item[index+2:]
 		except IndexError:  #input:'A::.B'
 			return '$'
 
@@ -202,7 +154,10 @@ class LR1Table:
 				else:#如果.后的符号是Vn
 					for productions in findPr:
 						beta_and_follow = self.get_beta_follow(item) #like input'S->.AB$', get 'B$'
-						for b in self.first_set[beta_and_follow[0]]:
+						first_follow = self.first_set[beta_and_follow[0]]
+						if len(first_follow) == 0:
+							first_follow = self.first_set[beta_and_follow[1]]
+						for b in first_follow:
 							new_item = next_ch_to_parse + '::=.' + productions + b
 							if new_item not in I:
 								I.append(new_item)
@@ -265,8 +220,6 @@ class LR1Table:
 		self.state_set_dict = {}
 		self.DFA_relations = [] #Element example: {'Si':0 , 'Sj':2, 'x': 'a'}
 		
-
-
 		starting = "^::=.S$"
 		#DFS build state sets
 		I0 = self.find_closure([starting])
@@ -284,7 +237,7 @@ class LR1Table:
 			original_count = count
 			candidate_chs = self.get_candidates(current_I)
 			for ch in candidate_chs: #如果是全规约集，候选元素为空，不会进入此循环
-				moved, shifted_a_Vn = self.parse_shift(current_I,ch)
+				moved = self.parse_shift(current_I,ch)
 				new_state_set = self.find_closure(moved)
 				
 				if new_state_set not in self.state_set_dict.values(): #避免重复状态集合
@@ -295,8 +248,8 @@ class LR1Table:
 						self.state_set_dict[index] = new_state_set
 				
 				
-				Si = get_key(self.state_set_dict,current_I)
-				Sj = get_key(self.state_set_dict,new_state_set)
+				Si = self.get_key(self.state_set_dict,current_I)
+				Sj = self.get_key(self.state_set_dict,new_state_set)
 				if(new_state_set != current_I): #Si != Sj 直接进入
 					self.DFA_relations.append({'Si':Si , 'Sj':Sj, 'x': ch})#存入DFA箭头
 				else: #如果Si = Sj
@@ -316,7 +269,7 @@ class LR1Table:
 		else:
 			x = item[dot_index+1]
 			if (x.isupper()):
-				return {'State': i, 'V': x, 'value': j }
+				return {'State': i, 'V': x, 'value': "goto " + str(j) }
 			else:
 				return {'State': i, 'V': x, 'value': "shift " + str(j) }
 
@@ -340,6 +293,7 @@ class LR1Table:
 
 		self.ACTIONGOTO_df = pd.DataFrame(self.ACTIONGOTO)
 		self.ACTIONGOTO_df.drop_duplicates(inplace=True)
+		self.ACTIONGOTO_df['value'][self.ACTIONGOTO_df['value']=="reduce ^::=S"] = "ACC"
 
 
 
@@ -348,14 +302,9 @@ class LR1Table:
 		self.entryOfGram = self.find_terminals_of(self.gram)
 		self.first_set = First(grammar_rules=self.gram).first_set
 
-		all_symbols_set = self.all_grammar_symbols(self.gram)
-
 		self.get_DFA()
 		self.construct_table()
 
-		print(self.state_set_dict)
-		print(self.DFA_relations)
-		print(self.ACTIONGOTO_df)
 
 
 
@@ -429,9 +378,12 @@ if __name__ == "__main__":
 		'C::=d',
 	]
 
-	LR1 = LR1Table(LR1_grammer_rules=LR1_gram)
-	# print("-"*20)
-	# # print(LR1.allItems)
-	# print(LR1.ItemsAll)
-	
+	LR1 = LR1Table(LR1_grammer_rules=MyGram)
+
+	print("-------State_dict-----------")
+	print(LR1.state_set_dict)
+	print("-------DFA relation-----------")
+	print(LR1.DFA_relations)
+	print("-------ACTION GOTO-----------")
+	print(LR1.ACTIONGOTO_df)
 

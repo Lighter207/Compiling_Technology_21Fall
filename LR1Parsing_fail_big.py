@@ -1,6 +1,6 @@
-from numpy import e
 from LR1GetTable import LR1Table
 from C_word_process import WordProcess
+import json
 
 alias_dict = {
 		# Alias for Vn:
@@ -53,13 +53,28 @@ MyGram = [
 			'G::=aEb',
 			'G::=T' ]
 
-
+LR1_gram = [
+	'^::=S$',
+	'S::=LdS',
+	'S::=L',
+	'L::=x',
+	'L::=y'
+]
 
 
 class LR1Parser(WordProcess,LR1Table):
 	def __init__(self, filename,grammerrules) -> None:
-		super().__init__(filename)
-		self.state_stack = ['0']
+		WordProcess.__init__(self,filename)
+		LR1Table.__init__(self,grammerrules)
+		# print("-------State_dict-----------")
+		# print(self.state_set_dict)
+		with open('./LR1Parser_log/DFA.txt','w') as file:
+			file.write(json.dumps(self.state_set_dict,indent=4,separators=('\n',':')))
+		# print("-------DFA relation-----------")
+		# print(self.DFA_relations)
+		self.dfa_relation_df.to_csv('./LR1Parser_log/DFA_relation.csv',encoding='utf-8')
+		self.ACTIONGOTO_df.to_csv('./LR1Parser_log/ACTIONGOTO.csv',encoding='utf-8')
+		self.state_stack = [0]
 		self.parse_stack = ['$']
 		self.input_stack = []
 		
@@ -75,10 +90,11 @@ class LR1Parser(WordProcess,LR1Table):
 
 		self.input_stack.append('$') # 加入终止符$
 		# print(self.input_stack)
-		self.lr1_table = LR1Table(grammerrules).ACTION
-		self.positions = list(self.lr1_table.keys())
-		self.positions_x = [i.split("+")[0] for i in self.positions]
-		self.positions_y = [i.split("+")[-1] for i in self.positions]
+
+		# self.lr1_table = LR1Table(grammerrules).ACTIONGOTO_df
+		self.lr1_table = self.ACTIONGOTO_df
+
+		print(self.lr1_table)
 
 		print(self.parse_stack,end='\t')
 		print(self.state_stack,end='\t')
@@ -88,18 +104,16 @@ class LR1Parser(WordProcess,LR1Table):
 
 	def look_up_table(self,state,ch):
 		
-		# print(positions_x)
+		try:
+			value = self.lr1_table['value'][(self.lr1_table['State']==state) & (self.lr1_table['V']==ch)]
+			value = value.to_list()
+			value = value[0]
 
-		actions = list(self.lr1_table.values())
-		# print(actions)
-		
-		indices = [i for i, x in enumerate(self.positions_x) if x == state] #sugar
+			return value
 
-		for index in indices:
-			if (self.positions_y[index] == ch):
-				return actions[index]
-		
-		return -1 #Not found, goes into error handling
+		except Exception as e:
+			print(e)
+			return -1 #Not found, goes into error handling
 		
 
 	def parse(self):
@@ -116,10 +130,10 @@ class LR1Parser(WordProcess,LR1Table):
 			action_op = action.split(" ")[0]
 			action_cm = action.split(" ")[-1]
 			match action_op:
-				case 'shift':
+				case 'shift' | 'goto':
 					self.parse_stack.append(current_input_ch)
 					
-					self.state_stack.append(action_cm)
+					self.state_stack.append(int(action_cm))
 					
 					self.input_stack = self.input_stack[1:]
 
@@ -154,29 +168,34 @@ class LR1Parser(WordProcess,LR1Table):
 						print("Not Found action_1 in table")
 						return
 					action_num = action_1.split(" ")[-1]
-					self.state_stack.append(action_num)
+					self.state_stack.append(int(action_num))
 
 					
 
 					current_state = self.state_stack[-1]
 					current_input_ch = self.input_stack[0]
-					action = self.look_up_table(current_state,current_input_ch)
-					if(action == -1):
-						print("Not Found in table")
-						return
-
 					print(action)
 					print(self.state_stack,end='\t')
 					print(self.parse_stack,end='\t')
 					print(self.input_stack,end='\t')
 					
+					action = self.look_up_table(current_state,current_input_ch)
+					if(action == -1):
+						print("Not Found in table")
+						return
+
+					# print(action)
+
 
 				case _:
-					print("ERROR, action not reduce or shift")
+					print("ERROR, action not reduce or shift or goto")
+					print(action)
 					break
 		else:
 			print("PARSE FINISHED")
 
 
 if __name__ == '__main__':
+	# LR1Parser(LR1_gram)
 	LR1Parser('LR1_test.c',MyGram)
+	

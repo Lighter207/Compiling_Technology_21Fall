@@ -1,0 +1,855 @@
+{
+    "0":[
+        "^::=.S$"
+
+        "S::=.mK$"
+    ]
+
+    "1":[
+        "^::=S.$"
+    ]
+
+    "2":[
+        "S::=m.K$"
+
+        "K::=.lNr$"
+    ]
+
+    "3":[
+        "S::=mK.$"
+    ]
+
+    "4":[
+        "K::=l.Nr$"
+
+        "N::=.MNr"
+
+        "N::=.er"
+
+        "M::=.iqEzl"
+
+        "M::=.iqEzw"
+
+        "M::=.iqEzi"
+
+        "M::=.iqEze"
+
+        "M::=.waBbMl"
+
+        "M::=.waBbMw"
+
+        "M::=.waBbMi"
+
+        "M::=.waBbMe"
+
+        "M::=.Kl"
+
+        "M::=.Kw"
+
+        "M::=.Ki"
+
+        "M::=.Ke"
+
+        "K::=.lNrl"
+
+        "K::=.lNrw"
+
+        "K::=.lNri"
+
+        "K::=.lNre"
+    ]
+
+    "5":[
+        "K::=lN.r$"
+    ]
+
+    "6":[
+        "N::=M.Nr"
+
+        "N::=.MNr"
+
+        "N::=.er"
+
+        "M::=.iqEzl"
+
+        "M::=.iqEzw"
+
+        "M::=.iqEzi"
+
+        "M::=.iqEze"
+
+        "M::=.waBbMl"
+
+        "M::=.waBbMw"
+
+        "M::=.waBbMi"
+
+        "M::=.waBbMe"
+
+        "M::=.Kl"
+
+        "M::=.Kw"
+
+        "M::=.Ki"
+
+        "M::=.Ke"
+
+        "K::=.lNrl"
+
+        "K::=.lNrw"
+
+        "K::=.lNri"
+
+        "K::=.lNre"
+    ]
+
+    "7":[]
+
+    "8":[
+        "M::=i.qEzl"
+
+        "M::=i.qEzw"
+
+        "M::=i.qEzi"
+
+        "M::=i.qEze"
+    ]
+
+    "9":[
+        "M::=w.aBbMl"
+
+        "M::=w.aBbMw"
+
+        "M::=w.aBbMi"
+
+        "M::=w.aBbMe"
+    ]
+
+    "10":[
+        "M::=K.l"
+
+        "M::=K.w"
+
+        "M::=K.i"
+
+        "M::=K.e"
+    ]
+
+    "11":[
+        "K::=l.Nrl"
+
+        "K::=l.Nrw"
+
+        "K::=l.Nri"
+
+        "K::=l.Nre"
+
+        "N::=.MNr"
+
+        "N::=.er"
+
+        "M::=.iqEzl"
+
+        "M::=.iqEzw"
+
+        "M::=.iqEzi"
+
+        "M::=.iqEze"
+
+        "M::=.waBbMl"
+
+        "M::=.waBbMw"
+
+        "M::=.waBbMi"
+
+        "M::=.waBbMe"
+
+        "M::=.Kl"
+
+        "M::=.Kw"
+
+        "M::=.Ki"
+
+        "M::=.Ke"
+
+        "K::=.lNrl"
+
+        "K::=.lNrw"
+
+        "K::=.lNri"
+
+        "K::=.lNre"
+    ]
+
+    "12":[
+        "K::=lN.rl"
+
+        "K::=lN.rw"
+
+        "K::=lN.ri"
+
+        "K::=lN.re"
+    ]
+
+    "13":[
+        "K::=lNr.l"
+
+        "K::=lNr.w"
+
+        "K::=lNr.i"
+
+        "K::=lNr.e"
+    ]
+
+    "14":[
+        "M::=wa.BbMl"
+
+        "M::=wa.BbMw"
+
+        "M::=wa.BbMi"
+
+        "M::=wa.BbMe"
+
+        "B::=.ToTb"
+
+        "B::=.TpTb"
+
+        "B::=.Tb"
+
+        "T::=.io"
+
+        "T::=.no"
+
+        "T::=.ip"
+
+        "T::=.np"
+
+        "T::=.ib"
+
+        "T::=.nb"
+    ]
+
+    "15":[
+        "M::=waB.bMl"
+
+        "M::=waB.bMw"
+
+        "M::=waB.bMi"
+
+        "M::=waB.bMe"
+    ]
+
+    "16":[
+        "B::=T.oTb"
+
+        "B::=T.pTb"
+
+        "B::=T.b"
+    ]
+
+    "17":[
+        "T::=i.o"
+
+        "T::=i.p"
+
+        "T::=i.b"
+    ]
+
+    "18":[
+        "T::=n.o"
+
+        "T::=n.p"
+
+        "T::=n.b"
+    ]
+
+    "19":[
+        "B::=To.Tb"
+
+        "T::=.ib"
+
+        "T::=.nb"
+    ]
+
+    "20":[
+        "B::=Tp.Tb"
+
+        "T::=.ib"
+
+        "T::=.nb"
+    ]
+
+    "21":[
+        "B::=TpT.b"
+    ]
+
+    "22":[
+        "T::=i.b"
+    ]
+
+    "23":[
+        "T::=n.b"
+    ]
+
+    "24":[
+        "B::=ToT.b"
+    ]
+
+    "25":[
+        "M::=waBb.Ml"
+
+        "M::=waBb.Mw"
+
+        "M::=waBb.Mi"
+
+        "M::=waBb.Me"
+
+        "M::=.iqEzl"
+
+        "M::=.waBbMl"
+
+        "M::=.Kl"
+
+        "M::=.iqEzw"
+
+        "M::=.waBbMw"
+
+        "M::=.Kw"
+
+        "M::=.iqEzi"
+
+        "M::=.waBbMi"
+
+        "M::=.Ki"
+
+        "M::=.iqEze"
+
+        "M::=.waBbMe"
+
+        "M::=.Ke"
+
+        "K::=.lNrl"
+
+        "K::=.lNrw"
+
+        "K::=.lNri"
+
+        "K::=.lNre"
+    ]
+
+    "26":[
+        "M::=waBbM.l"
+
+        "M::=waBbM.w"
+
+        "M::=waBbM.i"
+
+        "M::=waBbM.e"
+    ]
+
+    "27":[
+        "M::=iq.Ezl"
+
+        "M::=iq.Ezw"
+
+        "M::=iq.Ezi"
+
+        "M::=iq.Eze"
+
+        "E::=.EsFz"
+
+        "E::=.Fz"
+
+        "E::=.EsFs"
+
+        "E::=.Fs"
+
+        "F::=.FxGz"
+
+        "F::=.Gz"
+
+        "F::=.FxGs"
+
+        "F::=.Gs"
+
+        "F::=.FxGx"
+
+        "F::=.Gx"
+
+        "G::=.aEbz"
+
+        "G::=.Tz"
+
+        "G::=.aEbs"
+
+        "G::=.Ts"
+
+        "G::=.aEbx"
+
+        "G::=.Tx"
+
+        "T::=.iz"
+
+        "T::=.nz"
+
+        "T::=.is"
+
+        "T::=.ns"
+
+        "T::=.ix"
+
+        "T::=.nx"
+    ]
+
+    "28":[
+        "M::=iqE.zl"
+
+        "M::=iqE.zw"
+
+        "M::=iqE.zi"
+
+        "M::=iqE.ze"
+
+        "E::=E.sFz"
+
+        "E::=E.sFs"
+    ]
+
+    "29":[
+        "E::=F.z"
+
+        "E::=F.s"
+
+        "F::=F.xGz"
+
+        "F::=F.xGs"
+
+        "F::=F.xGx"
+    ]
+
+    "30":[
+        "F::=G.z"
+
+        "F::=G.s"
+
+        "F::=G.x"
+    ]
+
+    "31":[
+        "G::=a.Ebz"
+
+        "G::=a.Ebs"
+
+        "G::=a.Ebx"
+
+        "E::=.EsFb"
+
+        "E::=.Fb"
+
+        "E::=.EsFs"
+
+        "E::=.Fs"
+
+        "F::=.FxGb"
+
+        "F::=.Gb"
+
+        "F::=.FxGs"
+
+        "F::=.Gs"
+
+        "F::=.FxGx"
+
+        "F::=.Gx"
+
+        "G::=.aEbb"
+
+        "G::=.Tb"
+
+        "G::=.aEbs"
+
+        "G::=.Ts"
+
+        "G::=.aEbx"
+
+        "G::=.Tx"
+
+        "T::=.ib"
+
+        "T::=.nb"
+
+        "T::=.is"
+
+        "T::=.ns"
+
+        "T::=.ix"
+
+        "T::=.nx"
+    ]
+
+    "32":[
+        "G::=T.z"
+
+        "G::=T.s"
+
+        "G::=T.x"
+    ]
+
+    "33":[
+        "T::=i.z"
+
+        "T::=i.s"
+
+        "T::=i.x"
+    ]
+
+    "34":[
+        "T::=n.z"
+
+        "T::=n.s"
+
+        "T::=n.x"
+    ]
+
+    "35":[
+        "G::=aE.bz"
+
+        "G::=aE.bs"
+
+        "G::=aE.bx"
+
+        "E::=E.sFb"
+
+        "E::=E.sFs"
+    ]
+
+    "36":[
+        "E::=F.b"
+
+        "E::=F.s"
+
+        "F::=F.xGb"
+
+        "F::=F.xGs"
+
+        "F::=F.xGx"
+    ]
+
+    "37":[
+        "F::=G.b"
+
+        "F::=G.s"
+
+        "F::=G.x"
+    ]
+
+    "38":[
+        "G::=a.Ebb"
+
+        "G::=a.Ebs"
+
+        "G::=a.Ebx"
+
+        "E::=.EsFb"
+
+        "E::=.Fb"
+
+        "E::=.EsFs"
+
+        "E::=.Fs"
+
+        "F::=.FxGb"
+
+        "F::=.Gb"
+
+        "F::=.FxGs"
+
+        "F::=.Gs"
+
+        "F::=.FxGx"
+
+        "F::=.Gx"
+
+        "G::=.aEbb"
+
+        "G::=.Tb"
+
+        "G::=.aEbs"
+
+        "G::=.Ts"
+
+        "G::=.aEbx"
+
+        "G::=.Tx"
+
+        "T::=.ib"
+
+        "T::=.nb"
+
+        "T::=.is"
+
+        "T::=.ns"
+
+        "T::=.ix"
+
+        "T::=.nx"
+    ]
+
+    "39":[
+        "G::=T.b"
+
+        "G::=T.s"
+
+        "G::=T.x"
+    ]
+
+    "40":[
+        "T::=i.b"
+
+        "T::=i.s"
+
+        "T::=i.x"
+    ]
+
+    "41":[
+        "T::=n.b"
+
+        "T::=n.s"
+
+        "T::=n.x"
+    ]
+
+    "42":[
+        "G::=aE.bb"
+
+        "G::=aE.bs"
+
+        "G::=aE.bx"
+
+        "E::=E.sFb"
+
+        "E::=E.sFs"
+    ]
+
+    "43":[
+        "G::=aEb.b"
+
+        "G::=aEb.s"
+
+        "G::=aEb.x"
+    ]
+
+    "44":[
+        "E::=Es.Fb"
+
+        "E::=Es.Fs"
+
+        "F::=.FxGb"
+
+        "F::=.Gb"
+
+        "F::=.FxGs"
+
+        "F::=.Gs"
+
+        "F::=.FxGx"
+
+        "F::=.Gx"
+
+        "G::=.aEbb"
+
+        "G::=.Tb"
+
+        "G::=.aEbs"
+
+        "G::=.Ts"
+
+        "G::=.aEbx"
+
+        "G::=.Tx"
+
+        "T::=.ib"
+
+        "T::=.nb"
+
+        "T::=.is"
+
+        "T::=.ns"
+
+        "T::=.ix"
+
+        "T::=.nx"
+    ]
+
+    "45":[
+        "E::=EsF.b"
+
+        "E::=EsF.s"
+
+        "F::=F.xGb"
+
+        "F::=F.xGs"
+
+        "F::=F.xGx"
+    ]
+
+    "46":[
+        "F::=Fx.Gb"
+
+        "F::=Fx.Gs"
+
+        "F::=Fx.Gx"
+
+        "G::=.aEbb"
+
+        "G::=.Tb"
+
+        "G::=.aEbs"
+
+        "G::=.Ts"
+
+        "G::=.aEbx"
+
+        "G::=.Tx"
+
+        "T::=.ib"
+
+        "T::=.nb"
+
+        "T::=.is"
+
+        "T::=.ns"
+
+        "T::=.ix"
+
+        "T::=.nx"
+    ]
+
+    "47":[
+        "F::=FxG.b"
+
+        "F::=FxG.s"
+
+        "F::=FxG.x"
+    ]
+
+    "48":[
+        "G::=aEb.z"
+
+        "G::=aEb.s"
+
+        "G::=aEb.x"
+    ]
+
+    "49":[
+        "F::=Fx.Gz"
+
+        "F::=Fx.Gs"
+
+        "F::=Fx.Gx"
+
+        "G::=.aEbz"
+
+        "G::=.Tz"
+
+        "G::=.aEbs"
+
+        "G::=.Ts"
+
+        "G::=.aEbx"
+
+        "G::=.Tx"
+
+        "T::=.iz"
+
+        "T::=.nz"
+
+        "T::=.is"
+
+        "T::=.ns"
+
+        "T::=.ix"
+
+        "T::=.nx"
+    ]
+
+    "50":[
+        "F::=FxG.z"
+
+        "F::=FxG.s"
+
+        "F::=FxG.x"
+    ]
+
+    "51":[
+        "M::=iqEz.l"
+
+        "M::=iqEz.w"
+
+        "M::=iqEz.i"
+
+        "M::=iqEz.e"
+    ]
+
+    "52":[
+        "E::=Es.Fz"
+
+        "E::=Es.Fs"
+
+        "F::=.FxGz"
+
+        "F::=.Gz"
+
+        "F::=.FxGs"
+
+        "F::=.Gs"
+
+        "F::=.FxGx"
+
+        "F::=.Gx"
+
+        "G::=.aEbz"
+
+        "G::=.Tz"
+
+        "G::=.aEbs"
+
+        "G::=.Ts"
+
+        "G::=.aEbx"
+
+        "G::=.Tx"
+
+        "T::=.iz"
+
+        "T::=.nz"
+
+        "T::=.is"
+
+        "T::=.ns"
+
+        "T::=.ix"
+
+        "T::=.nx"
+    ]
+
+    "53":[
+        "E::=EsF.z"
+
+        "E::=EsF.s"
+
+        "F::=F.xGz"
+
+        "F::=F.xGs"
+
+        "F::=F.xGx"
+    ]
+
+    "54":[
+        "N::=MN.r"
+    ]
+
+    "55":[
+        "K::=lNr.$"
+    ]
+}

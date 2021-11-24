@@ -1,1 +1,0 @@
-get_beta_follow
