@@ -150,11 +150,11 @@ class LR1Table:
 		output :'A'
 
 		'''
-		# Item = item.replace(' ','')
-		# listItem = list(Item)
+		Item = item.replace(' ','')
+		listItem = list(Item)
 		try:
-			index = item.index('.')
-			return item[index+1]
+			index = listItem.index('.')
+			return listItem[index+1]
 		except:
 			return '$'
 
@@ -264,13 +264,11 @@ class LR1Table:
 		'''
 		self.state_set_dict = {}
 		self.DFA_relations = [] #Element example: {'Si':0 , 'Sj':2, 'x': 'a'}
-		
-
 
 		starting = "^::=.S$"
 		#DFS build state sets
 		I0 = self.find_closure([starting])
-		self.state_set_dict[0] = I0
+		self.state_set_dict["I0"] = I0
 		
 		I = [I0] #状态集栈, 压入I0
 
@@ -290,7 +288,7 @@ class LR1Table:
 				if new_state_set not in self.state_set_dict.values(): #避免重复状态集合
 					I.append(new_state_set) #入栈
 					count += 1
-					index = count
+					index = 'I' + str(count)
 					if index not in self.state_set_dict.keys(): #存入状态集字典
 						self.state_set_dict[index] = new_state_set
 				
@@ -305,41 +303,9 @@ class LR1Table:
 					if(not is_reduce_set): #Si = Sj, 但是为循环箭头
 						self.DFA_relations.append({'Si':Si , 'Sj':Sj, 'x': ch})#存入DFA箭头
 						# I.pop() #循环状态集不能入状态集栈
-
-
-	def ACTIONGOTO_table_function(self,item, i, j = -1):
-		dot_index = item.index(".")
-		if (self.is_reduce_item(item)):
-			r = item[:dot_index]
-			return {'State': i, 'V': item[-1], 'value': "reduce " + r }
-
-		else:
-			x = item[dot_index+1]
-			if (x.isupper()):
-				return {'State': i, 'V': x, 'value': j }
-			else:
-				return {'State': i, 'V': x, 'value': "shift " + str(j) }
-
-	def construct_table (self):
-		self.dfa_relation_df = pd.DataFrame(self.DFA_relations)
-		self.ACTIONGOTO = [] #ACTIONGOTO table {'Si': Si, 'x': x, 'value': 'reduce ^::=S}
-
-		for i in range(len(self.state_set_dict)):
-			Si = self.state_set_dict[i]
-			# j = self.dfa_relation_df.loc(self.dfa_relation_df['Si'] == i)
-			# x =
-			for item in Si :
-				if self.is_reduce_item(item):
-					self.ACTIONGOTO.append(self.ACTIONGOTO_table_function(item,i))
-				else:
-					next_to_parse = self.next_dot_pos(item)
-					# j = self.dfa_relation_df.loc((self.dfa_relation_df['Si']==i)&(self.dfa_relation_df['']==next_to_parse),['Sj'])
-					j = self.dfa_relation_df['Sj'][(self.dfa_relation_df['Si']==i) & (self.dfa_relation_df['x']==next_to_parse)]
-					j = int(j)
-					self.ACTIONGOTO.append(self.ACTIONGOTO_table_function(item,i,j))
-
-		self.ACTIONGOTO_df = pd.DataFrame(self.ACTIONGOTO)
-		self.ACTIONGOTO_df.drop_duplicates(inplace=True)
+		
+	def construct_ACTIONGOTO_table(self):
+		pass
 
 
 
@@ -351,11 +317,9 @@ class LR1Table:
 		all_symbols_set = self.all_grammar_symbols(self.gram)
 
 		self.get_DFA()
-		self.construct_table()
 
 		print(self.state_set_dict)
 		print(self.DFA_relations)
-		print(self.ACTIONGOTO_df)
 
 
 
