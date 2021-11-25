@@ -1,6 +1,11 @@
-
+# =============================================================================
+# Created By  : Huang Chanjuan
+# Created Date: Thu November 25 14:27:00 GMT+8 2021
+# =============================================================================
 class Grammar:
-	'''Parse grammer rules iVno noVnerminals and terminals.'''
+	'''
+		处理输入语法
+	'''
 	def __init__(self, rules):
 		self.rules = tuple(self._parse(rule) for rule in rules)
 
@@ -30,7 +35,9 @@ class Grammar:
 
 
 class First:
-	'''Get first set of noVnerminals from grammer rules.'''
+	'''
+		生成First集
+	'''
 	def __init__(self,grammar_rules) -> None:
 		self.first_set = self.first(Grammar(grammar_rules))
 		# self.get_rid_of_epilson_first()
