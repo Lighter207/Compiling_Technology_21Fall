@@ -1,11 +1,10 @@
-from LRGetFirstSet import First
+from LR1GetFirstSet import First
 import pandas as pd
 
-# from test_key import get_key
-
 class LR1Table:
-	''' Grammar rules must be augmented beforehand by the user 
-		with '^::=.S$'. Where ^ denotes S', S is the first Vn.
+	''' 
+		使用前必须先进行增广，加上'^::=.S$'
+		S是第一个Vn
 	'''	
 	def shift_pos(self,item):
 		'''
@@ -21,13 +20,10 @@ class LR1Table:
 	
 	def check(self,item,N):
 		'''
-		Check if the grammar is not completely parsed or not
-		Input: Item, GrammarSymbol
-		Output: True if . can be shifted else False
+		检查item是否还需要继续分析
 
-		Example1:
-		Input:['A::=B.b$'],b
-		Output:True
+		INPUT:'A::=B.b$',b
+		OUTPUT: True
 		'''
 		try:
 			index = item.index('.')
@@ -40,12 +36,11 @@ class LR1Table:
 
 	def parse_shift(self, I, symbol):
 		'''
-		Input: (Item, GrammarSymbol)
-		Output: Items after shift symbol is performed
+		输出集合.移动到symbol后一位的集合
 
 		Example: 
-		Input: ['S::=.CC$'], C
-		Output: ['S::=C.C$', 'C::=.cC$', 'C::=.d$']
+		INPUT: ['S::=.LdS$'], L
+		OUTPUT: ['S::=L.dS$']
 
 		'''
 		J = []
@@ -62,12 +57,12 @@ class LR1Table:
 
 	def find_productions(self,A):
 		'''
-		Input: Vn A
-		Output: All alphas of A (A -> alpha)
+		INPUT: Vn L
+		OUTPUT: All alphas of L (A -> alpha)
 
 		Example
-		Input : 'C'
-		Output: ['cC','d']
+		INPUT : 'L'
+		OUTPUT: ['x','y']
 		'''
 		if A == '$':
 			return 1
@@ -77,11 +72,11 @@ class LR1Table:
 
 	def find_terminals_of(self,gram):
 		'''
-		Input : gram
+		INPUT : gram
 		output : {
 			'^':['S$']
-			'S':['aAd', 'bAc', 'aec', 'bed']
-			'A':['e']
+			'S':['LdS','L']
+			'L':['x','y']
 		}
 		'''
 		newList = {}
@@ -96,12 +91,11 @@ class LR1Table:
 
 	def next_dot_pos(self,item):
 		'''
-		input: An item
-		output: The element to be executed
+		输出下一个要分析的符号
 
 		Example
-		input:'A::=.A$'
-		output :'A'
+		input: '^::=.S$'
+		output: 'S'
 
 		'''
 		try:
@@ -112,12 +106,11 @@ class LR1Table:
 
 	def get_beta_follow(self,item):
 		'''
-		input: An item
-		output: The next non-terminal to be opened up
+		输出LR1文法的lookahead，添加到文法最后
 
 		Example
-		input:'^::.S$'
-		output: '$'
+		input: 'S::=.LdS'
+		output: 'd'
 
 		'''
 		# Item = item.replace(' ','')
@@ -130,15 +123,11 @@ class LR1Table:
 
 	def find_closure(self,I):
 		'''
-		Input: Grammar I
-		Output : Closure of Grammar
+			输出语法集合闭包
 
-		Input: ['^::=.S$']
-		Output : [['^::=.S$'], ['S::=.aAd$'], ['S::=.bAc$'], ['S::=.aec$'], ['S::=.bed$']]
+		INPUT: ['^::=.S$']
+		OUTPUT : ['^::=.S$', 'S::=.LdS$', 'S::=.L$', 'L::=.xd', 'L::=.yd', 'L::=.x$', 'L::=.y$']
 
-		where last element is the follow element.
-		Example:
-		In ['^::=.S$'] , $ is the follow of '^::=.S'
 		'''
 		add=1
 		while (add!=0):
@@ -166,8 +155,9 @@ class LR1Table:
 			
 	def get_candidates(self,I):
 		'''
-		Input: ['S::=.C$','C::=.d$]
-		Output: ['C','d']
+			输出该语法集的待分析符号集
+			INPUT: ['S::=L.dS$', 'S::=L.$']
+			OUTPUT: ['d']
 		'''
 		candidates = []
 		for item in I:
@@ -180,8 +170,9 @@ class LR1Table:
 
 	def is_reduce_item(self,item):
 		'''
-		Input: 'S::=.C$'  Output: 0
-		Input: 'S::=C.$'  Output: 1
+		该item是否待约
+		INPUT: 'S::=.L$'  OUTPUT: 0
+		INPUT: 'S::=L.$'  OUTPUT: 1
 		'''
 		index = item.index(".")
 		if index == len(item)-2:
@@ -191,7 +182,7 @@ class LR1Table:
 
 	def is_reduce_set(self,I):
 		'''
-		判断一个集合是否全部为规约事件
+			判断一个集合是否全部为规约事件
 		'''
 		reduce_item_count = 0
 		for item in I:
@@ -203,7 +194,7 @@ class LR1Table:
 
 	def get_key (self, dict, value):
 		'''
-		get key in dict based on a given value
+			通过字典的value得到key
 		'''
 		for k,v in dict.items():
 			if v == value:
@@ -212,10 +203,9 @@ class LR1Table:
 
 	def get_DFA(self): 
 		'''
-		Input : I0
-		Output : state sets,
-				 DFA relations,
-				 ACTIONGOTO table
+			开始分析，得到DFA状态集合及其相关关系，支持循环箭头
+			INPUT : I0
+			OUTPUT : state sets, DFA relations
 		'''
 		self.state_set_dict = {}
 		self.DFA_relations = [] #Element example: {'Si':0 , 'Sj':2, 'x': 'a'}
@@ -261,6 +251,9 @@ class LR1Table:
 
 
 	def ACTIONGOTO_table_function(self,item, i, j = -1):
+		'''
+			构造ACTION GOTO表的函数
+		'''
 		dot_index = item.index(".")
 		if (self.is_reduce_item(item)):
 			r = item[:dot_index]
@@ -274,6 +267,9 @@ class LR1Table:
 				return {'State': i, 'V': x, 'value': "shift " + str(j) }
 
 	def construct_table (self):
+		'''
+			读取构造好的DFA，开始创建ACTIONGOTO表
+		'''
 		self.dfa_relation_df = pd.DataFrame(self.DFA_relations)
 		self.ACTIONGOTO = [] #ACTIONGOTO table {'Si': Si, 'x': x, 'value': 'reduce ^::=S}
 
@@ -311,37 +307,6 @@ class LR1Table:
 
 if __name__ == "__main__":
 
-	alias_dict = {
-		# Alias for Vn:
-		'program' : 'S',
-		'block' : 'K',
-		'stmts' : 'N',
-		'stmt' : 'M',
-		'bool' : 'B',
-		'T' : 'T',
-		'E' : 'E',
-		'F' : 'F',
-		'G' : 'G',
-		# Alias for Vt:
-		'main' : 'm',
-		'episilon' : 'e',
-		'{' : 'l',
-		'}' : 'r',
-		'id' : 'i',
-		'=' : 'q',
-		'while' : 'w',
-		'(' : 'a',
-		')' : 'b',
-		'<=' : 'o',
-		'>=' : 'p',
-		'num' : 'n',
-		'+' : 's',
-		'*' : 'x',
-		';' : 'z',
-	}
-	original_names = list(alias_dict.keys())
-	alias_names = list(alias_dict.values())
-
 	MyGram = [
 			'^::=S$',
 			'S::=mK',
@@ -371,15 +336,18 @@ if __name__ == "__main__":
 			'S::=bed',
 			'A::=e'
 		]
+
 	LR1_gram = [
-		'^::=S$',
-		'S::=CC',
-		'C::=cC',
-		'C::=d',
+			'^::=S$',
+			'S::=CC',
+			'C::=cC',
+			'C::=d',
 	]
 
-	LR1 = LR1Table(LR1_grammer_rules=MyGram)
-
+	#测试入口，在此修改文法
+	LR1 = LR1Table(LR1_grammer_rules = MyGram)
+	
+	#输出DFA状态集，关系，ACTION GOTO表
 	print("-------State_dict-----------")
 	print(LR1.state_set_dict)
 	print("-------DFA relation-----------")

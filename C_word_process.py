@@ -291,5 +291,5 @@ class WordProcess :
 
 
 if __name__ == "__main__":
-    WP = WordProcess("Word_ProcessTest.c")
+    WP = WordProcess("C_Word_ProcessTest.c")
     print(WP.token_df)

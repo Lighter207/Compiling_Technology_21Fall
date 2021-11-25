@@ -53,27 +53,21 @@ MyGram = [
 			'G::=aEb',
 			'G::=T' ]
 
-LR1_gram = [
-	'^::=S$',
-	'S::=LdS',
-	'S::=L',
-	'L::=x',
-	'L::=y'
-]
-
-
 class LR1Parser(WordProcess,LR1Table):
 	def __init__(self, filename,grammerrules) -> None:
 		WordProcess.__init__(self,filename)
 		LR1Table.__init__(self,grammerrules)
-		# print("-------State_dict-----------")
-		# print(self.state_set_dict)
-		with open('./LR1Parser_log/DFA.txt','w') as file:
-			file.write(json.dumps(self.state_set_dict,indent=4,separators=('\n',':')))
-		# print("-------DFA relation-----------")
-		# print(self.DFA_relations)
-		self.dfa_relation_df.to_csv('./LR1Parser_log/DFA_relation.csv',encoding='utf-8')
-		self.ACTIONGOTO_df.to_csv('./LR1Parser_log/ACTIONGOTO.csv',encoding='utf-8')
+		print("-------State_dict-----------")
+		print(self.state_set_dict)
+		# 保存DFA的状态集合至文件
+		# with open('./LR1Parser_log/DFA.txt','w') as file:
+		# 	file.write(json.dumps(self.state_set_dict,indent=4,separators=('\n',':')))
+		print("-------DFA relation-----------")
+		print(self.DFA_relations)
+		# 保存DFA状态集之间的关系至文件
+		# self.dfa_relation_df.to_csv('./LR1Parser_log/DFA_relation.csv',encoding='utf-8')
+		# 保存ACTION GOTO表至文件
+		# self.ACTIONGOTO_df.to_csv('./LR1Parser_log/ACTIONGOTO.csv',encoding='utf-8')
 		self.state_stack = [0]
 		self.parse_stack = ['$']
 		self.input_stack = []
@@ -91,7 +85,6 @@ class LR1Parser(WordProcess,LR1Table):
 		self.input_stack.append('$') # 加入终止符$
 		# print(self.input_stack)
 
-		# self.lr1_table = LR1Table(grammerrules).ACTIONGOTO_df
 		self.lr1_table = self.ACTIONGOTO_df
 
 		print(self.lr1_table)
@@ -103,7 +96,12 @@ class LR1Parser(WordProcess,LR1Table):
 		self.parse()
 
 	def look_up_table(self,state,ch):
-		
+		'''
+			查找ACTIONGOTO表
+			INPUT: 状态, 字符
+			OUTPUT: 
+
+		'''
 		try:
 			value = self.lr1_table['value'][(self.lr1_table['State']==state) & (self.lr1_table['V']==ch)]
 			value = value.to_list()
@@ -117,6 +115,9 @@ class LR1Parser(WordProcess,LR1Table):
 		
 
 	def parse(self):
+		'''
+			开始L1语法分析
+		'''
 		current_state = self.state_stack[-1]
 		current_input_ch = self.input_stack[0]
 		
@@ -196,6 +197,5 @@ class LR1Parser(WordProcess,LR1Table):
 
 
 if __name__ == '__main__':
-	# LR1Parser(LR1_gram)
-	LR1Parser('LR1_test.c',MyGram)
+	LR1Parser('LR1_big_test.c',MyGram)
 	

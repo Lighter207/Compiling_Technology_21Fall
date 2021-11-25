@@ -1,6 +1,6 @@
 from LR1GetTable import LR1Table
 
-LR1_gram = [ #d means dot(.)
+LR1_gram = [ #d means dot(.) 该文法来自课本P77 例4-21 算法输出结果符合表4-19 
 	'^::=S$',
 	'S::=LdS',
 	'S::=L',
@@ -8,11 +8,12 @@ LR1_gram = [ #d means dot(.)
 	'L::=y'
 ]
 
-input_sentence = 'xdydx'
+input_sentence = 'xdydx' #输入来自于课本，x,y,x
 
 class LR1Parser(LR1Table):
 	def __init__(self, grammerrules) -> None:
 		LR1Table.__init__(self,grammerrules)
+
 		print("-------State_dict-----------")
 		print(self.state_set_dict)
 	
@@ -21,14 +22,14 @@ class LR1Parser(LR1Table):
 		
 		self.state_stack = [0]
 		self.parse_stack = ['$']
-		# self.input_stack = []
 		self.input_stack = list(input_sentence)
 		self.input_stack.append('$') # 加入终止符$
-		# print(self.input_stack)
-
+		
 		self.lr1_table = self.ACTIONGOTO_df
+
 		print("-------ACTION GOTO TABLE-----------")
 		print(self.lr1_table)
+
 		print("-------LR1 PARSE START-----------")
 		print(self.parse_stack,end='\t')
 		print(self.state_stack,end='\t')
@@ -117,9 +118,6 @@ class LR1Parser(LR1Table):
 					if(action == -1):
 						print("Not Found in table")
 						return
-
-					# print(action)
-
 
 				case _:
 					print("ERROR, action not reduce or shift or goto")
